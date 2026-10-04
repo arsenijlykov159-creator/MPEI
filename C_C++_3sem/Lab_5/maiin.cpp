@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <clocale>
 
@@ -10,14 +10,14 @@ int main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "russian");
 
 	if (argc < 3) {
-		std::cerr << "Íåäîñòàòî÷íî ïàðàìåòðîâ!\n";
+		std::cerr << "ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²!\n";
 		return 1;
 	}
 
 	std::ifstream ifile{ argv[1], std::ios::in };
 
 	if (!ifile.is_open()) {
-		std::cerr << "Íåâîçìîæíî îòêðûòü âõîäíîé ôàéë!\n";
+		std::cerr << "ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð²Ñ…Ð¾Ð´Ð½Ð¾Ð¹ Ñ„Ð°Ð¹Ð»!\n";
 		return 2;
 	}
 
