@@ -1,5 +1,68 @@
+# ===== Visual Studio User Files & Settings =====
 *.suo
 *.user
-*.db
-*.exe
+*.userosscache
+*.sln.docstates
+*.v12
+*.v14
+*.opendb
 .vs/
+
+# ===== Build Outputs & Intermediate Files =====
+[Dd]ebug/
+[Rr]elease/
+[Pp][Rr][Oo][Ff][Ii][Ll][Ee]/
+[Rr][Ee][Ll][Ee][Aa][Ss][Ee]/
+ipch/
+x64/
+x86/
+Win32/
+ARM/
+ARM64/
+bld/
+bin/
+obj/
+[Ll]og/
+[Ll]ogs/
+
+# ===== C++ Compiled Objects & Debugging Files =====
+*.obj
+*.o
+*.ilk
+*.pdb
+*.exp
+*.txt
+*.idb
+*.pch
+*.ipch
+*.aps
+*.ncb
+*.sbr
+*.bsc
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.app
+*.dwo
+
+# ===== Profiler & Code Analysis =====
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.opendb
+
+# ===== Packages & External Caches =====
+ipch/
+vcpkg_installed/
+packages/
+*.nupkg
+
+# ===== OS Specific =====
+.DS_Store
+Thumbs.db
+desktop.ini
