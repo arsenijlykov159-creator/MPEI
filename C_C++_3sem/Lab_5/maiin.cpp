@@ -16,7 +16,10 @@ int main(int argc, char* argv[]) {
 
 	std::ifstream ifile{ argv[1], std::ios::in };
 
-
+	if (!ifile.is_open()) {
+		std::cerr << "Невозможно открыть входной файл!\n";
+		return 2;
+	}
 
 	ifile.close();
 
