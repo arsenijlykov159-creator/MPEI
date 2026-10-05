@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Array.c" />
+    <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
     <Text Include="output.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
