@@ -17,9 +17,9 @@ void clearArray(Array* arr);
 
 void getArray(FILE* input_file, Array* arr);
 
-void printArray(FILE* output_array, const Array* arr);
+void printArrayToFile(FILE* output_array, const Array* arr);
 
-void printArraya(const Array* arr);
+void printArray(const Array* arr);
 
 bool comprFcn(int value, int compr_value);
 

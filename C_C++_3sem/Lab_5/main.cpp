@@ -63,11 +63,7 @@ int main(int argc, char* argv[]) {
 	fclose(ifile);
 
 
-	printf("%d ", countElemMoreThan(&array_1, input_value, static_cast<cFcn>(std::cmp_greater)));
-	printf("%d ", countElemMoreThan(&array_2, input_value, &comprFcn));
 
-	auto compare = [](int a, int b) {return a > b; };
-	printf("%d ", countElemMoreThan(&array_3, input_value, compare));
 
 
 	FILE* ofile;
@@ -81,14 +77,20 @@ int main(int argc, char* argv[]) {
 		return 5;
 	}
 
-	printArray(ofile, &array_1);
-	clearArray(&array_1);
+	fprintf(ofile, "1) ");
+	printArrayToFile(ofile, &array_1);
 
-	printArray(ofile, &array_2);
-	clearArray(&array_2);
+	fprintf(ofile, "2) ");
+	printArrayToFile(ofile, &array_2);
 
-	printArray(ofile, &array_3);
-	clearArray(&array_3);
+	fprintf(ofile, "3) ");
+	printArrayToFile(ofile, &array_3);
+
+	fprintf(ofile, "Количество элементов массивов, больших заданного числа %d:  %d  -  ", input_value, countElemMoreThan(&array_1, input_value, static_cast<cFcn>(std::cmp_greater)));
+	fprintf(ofile, "%d  -  ", countElemMoreThan(&array_2, input_value, &comprFcn));
+
+	auto compare = [](int a, int b) {return a > b; };
+	fprintf(ofile, "%d;", countElemMoreThan(&array_3, input_value, compare));
 
 	fclose(ofile);
 

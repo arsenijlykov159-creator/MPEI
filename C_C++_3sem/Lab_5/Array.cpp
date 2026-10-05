@@ -50,7 +50,7 @@ void getArray(FILE* input_file, Array* arr) {
 	arr->capacity = arr->size;
 }
 
-void printArray(FILE* output_array, const Array* arr) {
+void printArrayToFile(FILE* output_array, const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
 		fprintf(output_array, "%i ", arr->data[i]);
 	}
@@ -58,7 +58,7 @@ void printArray(FILE* output_array, const Array* arr) {
 	fprintf(output_array, "\n");
 }
 
-void printArraya(const Array* arr) {
+void printArray(const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
 		printf("%i ", arr->data[i]);
 	}
