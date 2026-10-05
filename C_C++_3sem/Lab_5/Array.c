@@ -2,6 +2,16 @@
 #include "Array.h"
 
 
+void clearArray(Array* arr) {
+	if (arr == NULL) return;
+
+	arr->size = 0;
+	arr->capacity = 0;
+
+	free(arr->data);
+	arr->data = NULL;
+}
+
 int isNewLineOrEOF(FILE* in) {
 	int next_elem = fgetc(in);
 
@@ -11,7 +21,6 @@ int isNewLineOrEOF(FILE* in) {
 
 	return result;
 }
-
 
 void getArray(FILE* input_file, Array* arr) {
 	if (!input_file) {
@@ -35,18 +44,11 @@ void getArray(FILE* input_file, Array* arr) {
 		if (isNewLineOrEOF(input_file)) break;
 	}
 
-	if (!isNewLineOrEOF(input_file) || arr->size == 0) {
-		arr->size = 0;
-		arr->capacity = 0;
-
-		free(arr->data);
-		arr->data = NULL;
-	}
+	if (!isNewLineOrEOF(input_file) || arr->size == 0) clearArray(arr);
 
 	arr->data = (int*)realloc(arr->data, arr->size * sizeof(int));
 	arr->capacity = arr->size;
 }
-
 
 void printArray(FILE* output_array, const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
@@ -62,4 +64,19 @@ void printArraya(const Array* arr) {
 	}
 
 	printf("\n");
+}
+
+int comprFcn(int value, int compr_value) { return value > compr_value; }
+
+
+
+int countElemMoreThan(const Array* arr, int compr_value, int(*Fcn)(int, int)) {
+	if (arr->size == 0) return 0;
+
+	int count = 0;
+	for (size_t i = 0; i < arr->size; ++i) {
+		if (Fcn(arr->data[i], compr_value)) ++count;
+	}
+
+	return count;
 }

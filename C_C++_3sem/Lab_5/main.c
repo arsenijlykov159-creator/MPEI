@@ -4,6 +4,14 @@
 
 
 
+int getInt(FILE* input_file, int* value) {
+	if (!input_file) return 0;
+
+	fscanf_s(input_file, "%d", value);
+
+	return 1;
+}
+
 
 
 int main(int argc, char* argv[]) {
@@ -22,6 +30,7 @@ int main(int argc, char* argv[]) {
 		return 2;
 	}
 
+
 	Array array_1 = { 0 };
 	getArray(ifile, &array_1);
 
@@ -31,28 +40,49 @@ int main(int argc, char* argv[]) {
 	Array array_3 = { 0 };
 	getArray(ifile, &array_3);
 
-	
+	if (array_1.size == 0 || array_2.size == 0 || array_3.size == 0) {
+		printf("Один из массивов содержит недопустимые символы!\n");
+		clearArray(&array_1);
+		clearArray(&array_2);
+		clearArray(&array_3);
+		return 3;
+	}
 
+	int input_value = 0;
+	if (!getInt(ifile, &input_value)) {
+		printf("Не удалось прочитать число для сравнения!\n");
+		clearArray(&array_1);
+		clearArray(&array_2);
+		clearArray(&array_3);
+		return 4;
+	}
 
 
 	fclose(ifile);
+
+
+	printf("%d ", countElemMoreThan(&array_1, input_value, &comprFcn));
+
 
 
 	FILE* ofile = fopen(argv[2], "w");
 
 	if (!ofile) {
 		printf("Невозможно открыть выходной файл!\n");
-		return 3;
+		clearArray(&array_1);
+		clearArray(&array_2);
+		clearArray(&array_3);
+		return 5;
 	}
 
 	printArray(ofile, &array_1);
-	free(array_1.data);
+	clearArray(&array_1);
 
 	printArray(ofile, &array_2);
-	free(array_2.data);
+	clearArray(&array_2);
 
 	printArray(ofile, &array_3);
-	free(array_3.data);
+	clearArray(&array_3);
 
 	fclose(ofile);
 
