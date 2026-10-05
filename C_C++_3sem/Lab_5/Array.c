@@ -23,7 +23,7 @@ void getArray(FILE* input_file, Array* arr) {
 	arr->capacity = 10;
 	arr->size = 0;
 
-	while (fscanf_s(input_file, "%i", &arr->data[arr->size]) == 1) {
+	while (fscanf_s(input_file, "%i", &arr->data[arr->size]) == 1 && !isNewLineOrEOF(input_file)) {
 
 		++arr->size;
 
@@ -33,7 +33,7 @@ void getArray(FILE* input_file, Array* arr) {
 		}
 	}
 
-	if (!isNewLineOrEOF(input_file)) {
+	if (!isNewLineOrEOF(input_file) || arr->size == 0) {
 		arr->size = 0;
 		arr->capacity = 0;
 
@@ -50,10 +50,14 @@ void printArray(FILE* output_array, const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
 		fprintf(output_array, "%i ", arr->data[i]);
 	}
+
+	fprintf(output_array, "\n");
 }
 
 void printArraya(const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
 		printf("%i ", arr->data[i]);
 	}
+
+	printf("\n");
 }

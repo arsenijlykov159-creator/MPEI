@@ -23,8 +23,13 @@ int main(int argc, char* argv[]) {
 	}
 
 	Array array_1 = { 0 };
-
 	getArray(ifile, &array_1);
+
+	Array array_2 = { 0 };
+	getArray(ifile, &array_2);
+
+	Array array_3 = { 0 };
+	getArray(ifile, &array_3);
 
 	
 
@@ -40,9 +45,14 @@ int main(int argc, char* argv[]) {
 		return 3;
 	}
 
-	printArraya(&array_1);
-
+	printArray(ofile, &array_1);
 	free(array_1.data);
+
+	printArray(ofile, &array_2);
+	free(array_2.data);
+
+	printArray(ofile, &array_3);
+	free(array_3.data);
 
 	fclose(ofile);
 
