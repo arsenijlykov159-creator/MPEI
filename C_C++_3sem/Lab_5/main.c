@@ -1,4 +1,4 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <locale.h>
 #include "Array.h"
 
@@ -11,14 +11,14 @@ int main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "russian");
 
 	if (argc < 3) {
-		printf("Íåäîñòàòî÷íî ïàðàìåòðîâ!\n");
+		printf("ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²!\n");
 		return 1;
 	}
 
 	FILE* ifile = fopen(argv[1], "r");
 
 	if (!ifile) {
-		printf("Íåâîçìîæíî îòêðûòü âõîäíîé ôàéë!\n");
+		printf("ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð²Ñ…Ð¾Ð´Ð½Ð¾Ð¹ Ñ„Ð°Ð¹Ð»!\n");
 		return 2;
 	}
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 	FILE* ofile = fopen(argv[2], "w");
 
 	if (!ofile) {
-		printf("Íåâîçìîæíî îòêðûòü âûõîäíîé ôàéë!\n");
+		printf("ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð²Ñ‹Ñ…Ð¾Ð´Ð½Ð¾Ð¹ Ñ„Ð°Ð¹Ð»!\n");
 		return 3;
 	}
 
