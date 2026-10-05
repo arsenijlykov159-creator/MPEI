@@ -9,6 +9,10 @@ typedef struct {
 	size_t capacity;
 } Array;
 
+
+typedef bool(*cFcn)(int, int);
+
+
 void clearArray(Array* arr);
 
 void getArray(FILE* input_file, Array* arr);
@@ -17,8 +21,8 @@ void printArray(FILE* output_array, const Array* arr);
 
 void printArraya(const Array* arr);
 
-int comprFcn(int value, int compr_value);
+bool comprFcn(int value, int compr_value);
 
-int countElemMoreThan(const Array* arr, int compr_value, int(*Fcn)(int, int));
+int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn);
 
 #endif

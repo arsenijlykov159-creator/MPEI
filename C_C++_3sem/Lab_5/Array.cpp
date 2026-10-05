@@ -66,11 +66,11 @@ void printArraya(const Array* arr) {
 	printf("\n");
 }
 
-int comprFcn(int value, int compr_value) { return value > compr_value; }
+bool comprFcn(int value, int compr_value) { return value > compr_value; }
 
 
 
-int countElemMoreThan(const Array* arr, int compr_value, int(*Fcn)(int, int)) {
+int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn) {
 	if (arr->size == 0) return 0;
 
 	int count = 0;

@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <locale.h>
 #include "Array.h"
+#include <utility>
 
 
 
@@ -23,7 +24,8 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	FILE* ifile = fopen(argv[1], "r");
+	FILE* ifile;
+	fopen_s(&ifile, argv[1], "r");
 
 	if (!ifile) {
 		printf("Невозможно открыть входной файл!\n");
@@ -61,11 +63,15 @@ int main(int argc, char* argv[]) {
 	fclose(ifile);
 
 
-	printf("%d ", countElemMoreThan(&array_1, input_value, &comprFcn));
+	printf("%d ", countElemMoreThan(&array_1, input_value, static_cast<cFcn>(std::cmp_greater)));
+	printf("%d ", countElemMoreThan(&array_2, input_value, &comprFcn));
+
+	auto compare = [](int a, int b) {return a > b; };
+	printf("%d ", countElemMoreThan(&array_3, input_value, compare));
 
 
-
-	FILE* ofile = fopen(argv[2], "w");
+	FILE* ofile;
+	fopen_s(&ofile, argv[2], "w");
 
 	if (!ofile) {
 		printf("Невозможно открыть выходной файл!\n");
