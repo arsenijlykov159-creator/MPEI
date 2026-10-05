@@ -23,7 +23,7 @@ void getArray(FILE* input_file, Array* arr) {
 	arr->capacity = 10;
 	arr->size = 0;
 
-	while (fscanf_s(input_file, "%i", &arr->data[arr->size]) == 1 && !isNewLineOrEOF(input_file)) {
+	while (fscanf_s(input_file, "%i", &arr->data[arr->size]) == 1) {
 
 		++arr->size;
 
@@ -31,6 +31,8 @@ void getArray(FILE* input_file, Array* arr) {
 			arr->capacity += 10;
 			arr->data = (int*)realloc(arr->data, arr->capacity * sizeof(int));
 		}
+
+		if (isNewLineOrEOF(input_file)) break;
 	}
 
 	if (!isNewLineOrEOF(input_file) || arr->size == 0) {
