@@ -90,3 +90,5 @@ int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn) {
 
 
 int outputFcn(int value) { return 2 * value; }
+
+int max(int x, int y) { return (x > y ? x : y); }

@@ -29,4 +29,6 @@ int outputFcn(int value);
 
 int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn);
 
+int max(int x, int y);
+
 #endif

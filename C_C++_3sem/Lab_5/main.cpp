@@ -8,9 +8,7 @@
 int getInt(FILE* input_file, int* value) {
 	if (!input_file) return 0;
 
-	fscanf_s(input_file, "%d", value);
-
-	return 1;
+	return (fscanf_s(input_file, "%d", value) == 1);
 }
 
 
@@ -99,6 +97,17 @@ int main(int argc, char* argv[]) {
 	fprintf(ofile, "Количество элементов массивов, больших заданного числа %d:  %d  -  ", input_value, result_1);
 	fprintf(ofile, "%d  -  ", result_2);
 	fprintf(ofile, "%d;", result_3);
+	fprintf(ofile, "\n");
+
+	int max_result = max(result_1, max(result_2, result_3));
+
+	if (result_1 == result_2 && result_1 == result_3) fprintf(ofile, "Во всех массивах одинаковое количество элементов, больших заданного числа %i: %i\n", input_value, result_1);
+	else if (result_1 > result_3 && result_1 == result_2) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеют массивы 1 и 2: %i", input_value, result_1);
+	else if (result_1 > result_2 && result_1 == result_3) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеют массивы 1 и 3: %i", input_value, result_1);
+	else if (result_2 > result_1 && result_2 == result_3) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеют массивы 2 и 3: %i", input_value, result_2);
+	else if (result_1 == max_result) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеет массив 1: %i", input_value, result_1);
+	else if (result_2 == max_result) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеет массив 2: %i", input_value, result_2);
+	else if (result_3 == max_result) fprintf(ofile, "Максимальное число элементов, больших заданного числа %i, имеет массив 3: %i", input_value, result_3);
 
 	fclose(ofile);
 
