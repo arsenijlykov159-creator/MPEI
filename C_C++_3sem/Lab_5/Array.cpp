@@ -22,6 +22,13 @@ int isNewLineOrEOF(FILE* in) {
 	return result;
 }
 
+void printArrayInfo(const Array* arr) {
+	if (!arr->data) printf("Массив пустой");
+	else printf("Массив не пуст");
+
+	printf(" size: %zu ; capacity : %zu", arr->size, arr->capacity);
+}
+
 void getArray(FILE* input_file, Array* arr) {
 	if (!input_file) {
 		arr->data = NULL;
@@ -37,7 +44,7 @@ void getArray(FILE* input_file, Array* arr) {
 		++arr->size;
 
 		if (arr->size >= arr->capacity) {
-			arr->capacity += 10;
+			arr->capacity *= 2;
 			arr->data = (int*)realloc(arr->data, arr->capacity * sizeof(int));
 		}
 
@@ -50,9 +57,9 @@ void getArray(FILE* input_file, Array* arr) {
 	arr->capacity = arr->size;
 }
 
-void printArrayToFile(FILE* output_array, const Array* arr) {
+void printArrayToFile(FILE* output_array, const Array* arr, int(*someFcn)(int)) {
 	for (size_t i = 0; i < arr->size; ++i) {
-		fprintf(output_array, "%i ", arr->data[i]);
+		fprintf(output_array, "%i ", someFcn(arr->data[i]));
 	}
 
 	fprintf(output_array, "\n");
@@ -80,3 +87,6 @@ int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn) {
 
 	return count;
 }
+
+
+int outputFcn(int value) { return 2 * value; }

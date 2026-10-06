@@ -17,11 +17,15 @@ void clearArray(Array* arr);
 
 void getArray(FILE* input_file, Array* arr);
 
-void printArrayToFile(FILE* output_array, const Array* arr);
+void printArrayInfo(const Array* arr);
+
+void printArrayToFile(FILE* output_array, const Array* arr, int(*someFcn)(int));
 
 void printArray(const Array* arr);
 
 bool comprFcn(int value, int compr_value);
+
+int outputFcn(int value);
 
 int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn);
 

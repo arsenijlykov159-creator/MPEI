@@ -78,19 +78,27 @@ int main(int argc, char* argv[]) {
 	}
 
 	fprintf(ofile, "1) ");
-	printArrayToFile(ofile, &array_1);
+	printArrayToFile(ofile, &array_1, &outputFcn);
+	//printArrayInfo(&array_1);
 
 	fprintf(ofile, "2) ");
-	printArrayToFile(ofile, &array_2);
+	printArrayToFile(ofile, &array_2, &outputFcn);
+	//printArrayInfo(&array_2);
 
 	fprintf(ofile, "3) ");
-	printArrayToFile(ofile, &array_3);
+	printArrayToFile(ofile, &array_3, &outputFcn);
+	//printArrayInfo(&array_3);
 
-	fprintf(ofile, "Количество элементов массивов, больших заданного числа %d:  %d  -  ", input_value, countElemMoreThan(&array_1, input_value, static_cast<cFcn>(std::cmp_greater)));
-	fprintf(ofile, "%d  -  ", countElemMoreThan(&array_2, input_value, &comprFcn));
 
+	int result_1 = countElemMoreThan(&array_1, input_value, static_cast<cFcn>(std::cmp_greater));
+	int result_2 = countElemMoreThan(&array_2, input_value, &comprFcn);
 	auto compare = [](int a, int b) {return a > b; };
-	fprintf(ofile, "%d;", countElemMoreThan(&array_3, input_value, compare));
+	int result_3 = countElemMoreThan(&array_3, input_value, compare);
+
+
+	fprintf(ofile, "Количество элементов массивов, больших заданного числа %d:  %d  -  ", input_value, result_1);
+	fprintf(ofile, "%d  -  ", result_2);
+	fprintf(ofile, "%d;", result_3);
 
 	fclose(ofile);
 
