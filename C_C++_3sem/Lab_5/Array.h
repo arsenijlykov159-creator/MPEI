@@ -2,15 +2,16 @@
 #define ARRAY_H
 
 #include <stdlib.h>
+#include <cmath>
 
 typedef struct {
-	int* data;
+	double* data;
 	size_t size;
 	size_t capacity;
 } Array;
 
 
-typedef bool(*cFcn)(int, int);
+typedef double(*cFcn)(double);
 
 
 void clearArray(Array* arr);
@@ -19,15 +20,17 @@ void getArray(FILE* input_file, Array* arr);
 
 void printArrayInfo(const Array* arr);
 
-void printArrayToFile(FILE* output_array, const Array* arr, int(*someFcn)(int));
+double outputFcn(double value);
+
+void printArrayToFile(FILE* output_array, const Array* arr, double(*someFcn)(double) = outputFcn);
 
 void printArray(const Array* arr);
 
-bool comprFcn(int value, int compr_value);
+double comprFcn(double value);
 
-int outputFcn(int value);
 
-int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn);
+
+int countElemMoreThan(const Array* arr, double compr_value, cFcn Fcn);
 
 int max(int x, int y);
 

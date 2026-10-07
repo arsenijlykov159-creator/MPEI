@@ -35,17 +35,17 @@ void getArray(FILE* input_file, Array* arr) {
 		return;
 	}
 
-	arr->data = (int*)malloc(10 * sizeof(int));
+	arr->data = (double*)malloc(10 * sizeof(double));
 	arr->capacity = 10;
 	arr->size = 0;
 
-	while (fscanf_s(input_file, "%i", &arr->data[arr->size]) == 1) {
+	while (fscanf_s(input_file, "%lf", &arr->data[arr->size]) == 1) {
 
 		++arr->size;
 
 		if (arr->size >= arr->capacity) {
 			arr->capacity *= 2;
-			arr->data = (int*)realloc(arr->data, arr->capacity * sizeof(int));
+			arr->data = (double*)realloc(arr->data, arr->capacity * sizeof(double));
 		}
 
 		if (isNewLineOrEOF(input_file)) break;
@@ -53,13 +53,13 @@ void getArray(FILE* input_file, Array* arr) {
 
 	if (!isNewLineOrEOF(input_file) || arr->size == 0) clearArray(arr);
 
-	arr->data = (int*)realloc(arr->data, arr->size * sizeof(int));
+	arr->data = (double*)realloc(arr->data, arr->size * sizeof(double));
 	arr->capacity = arr->size;
 }
 
-void printArrayToFile(FILE* output_array, const Array* arr, int(*someFcn)(int)) {
+void printArrayToFile(FILE* output_array, const Array* arr, double(*someFcn)(double)) {
 	for (size_t i = 0; i < arr->size; ++i) {
-		fprintf(output_array, "%i ", someFcn(arr->data[i]));
+		fprintf(output_array, "%lf ", someFcn(arr->data[i]));
 	}
 
 	fprintf(output_array, "\n");
@@ -67,28 +67,28 @@ void printArrayToFile(FILE* output_array, const Array* arr, int(*someFcn)(int)) 
 
 void printArray(const Array* arr) {
 	for (size_t i = 0; i < arr->size; ++i) {
-		printf("%i ", arr->data[i]);
+		printf("%lf ", arr->data[i]);
 	}
 
 	printf("\n");
 }
 
-bool comprFcn(int value, int compr_value) { return value > compr_value; }
+double comprFcn(double value) { return std::sqrt(value); }
 
 
 
-int countElemMoreThan(const Array* arr, int compr_value, cFcn Fcn) {
+int countElemMoreThan(const Array* arr, double compr_value, cFcn Fcn) {
 	if (arr->size == 0) return 0;
 
 	int count = 0;
 	for (size_t i = 0; i < arr->size; ++i) {
-		if (Fcn(arr->data[i], compr_value)) ++count;
+		if (Fcn(arr->data[i]) > compr_value) ++count;
 	}
 
 	return count;
 }
 
 
-int outputFcn(int value) { return 2 * value; }
+double outputFcn(double value) { return 1 * value; }
 
 int max(int x, int y) { return (x > y ? x : y); }
