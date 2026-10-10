@@ -28,7 +28,7 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 				++i;
 				++m_size;
 			}
-			else break;
+			else return false;
 		}
 		if (i == 0) return true;
 		
@@ -39,7 +39,10 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 
 		char ch{};
 		ifile.get(ch);
-		if (isNewLine(ifile) || ifile.eof()) return true;
+		if (isNewLine(ifile) || ifile.eof()) {
+			ifile.get(ch);
+			return true;
+		}
 	}
 }
 

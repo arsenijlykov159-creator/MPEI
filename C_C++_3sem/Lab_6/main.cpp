@@ -31,6 +31,18 @@ int main(int argc, char* argv[]) {
 
 	dynArr.print();
 
+
+	DynamicArray dynArr_2{};
+
+	if (!dynArr_2.getFromFile(input_file)) {
+		std::cerr << "Неверный формат матрицы!\n";
+		dynArr_2.clear();
+		return 3;
+	}
+
+	dynArr_2.print();
+
+
 	input_file.close();
 
 	return 0;
