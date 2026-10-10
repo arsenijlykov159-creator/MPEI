@@ -3,6 +3,7 @@
 
 
 #include <iostream>
+#include <optional>
 #include <fstream>
 #include <vector>
 #include <new>
@@ -22,14 +23,32 @@ private:
 	bool isNewLine(std::ifstream& ifile) {
 		if (!ifile.is_open()) return false;
 
-		int next_elem{ ifile.peek() };
+		int next_elem{};
+
+		do {
+			next_elem = ifile.get();
+		} while (next_elem == ' ');
+
+		ifile.unget();
 
 		return (next_elem == '\n' || next_elem == 'r' || next_elem == -1);
+	}
+
+	void copy(double* new_da) {
+		st count{ m_size };
+
+		for (st i{ 0 }; i < count; ++i) { m_data[i] = new_da[i]; }
 	}
 
 public:
 
 	DynamicArray() = default;
+
+	void clear() {
+		delete[] m_data;
+		m_data = nullptr;
+		m_rows = m_columns = m_size = m_capacity = 0;
+	}
 
 	bool getFromFile(std::ifstream& ifile);
 
@@ -37,11 +56,16 @@ public:
 		if (!(i < m_rows && j < m_columns)) return false;
 
 		m_data[i * m_columns + j] = element;
+		return true;
 	}
 
-	constexpr double get(st i, st j) const { return m_data[i * m_columns + j]; }
+	std::optional<double> get(st i, st j) const { 
+		if (!(i < m_rows && j < m_columns)) return {};
 
-	friend void printMatrix(const DynamicArray& da);
+		return m_data[i * m_columns + j]; 
+	}
+
+	void print() const;
 
 };
 

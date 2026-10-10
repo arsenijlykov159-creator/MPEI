@@ -4,7 +4,9 @@
 bool DynamicArray::getFromFile(std::ifstream& ifile) {
 	if (!ifile.is_open()) return false;
 
-	m_capacity = 5;
+	clear();
+
+	m_capacity = 7;
 	m_data = new (std::nothrow) double[m_capacity];
 
 	double element{};
@@ -14,26 +16,26 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 
 		while (!isNewLine(ifile) && !ifile.eof()) {
 			if (ifile >> element) {
-				std::cout << element << ' ';
-				m_data[i] = element;
-				std::cout << m_data[i] << '\n';
-				++i;
-
-				++m_size;
-				if (m_size >= m_capacity) {
+				if (!(m_size < m_capacity)) {
 					m_capacity *= 2;
+
+					double* temp{ m_data };
 					m_data = new (std::nothrow) double[m_capacity];
+					copy(temp);
 				}
+
+				m_data[m_size] = element;
+				++i;
+				++m_size;
 			}
 			else break;
 		}
+		if (i == 0) return true;
 		
 		if (m_columns == 0) m_columns = i;
-		else if (m_columns != i) {
-			std::cerr << "Неверный формат матрицы!\n";
-			return false;
-		}
-		if (m_columns != 0) ++m_rows;
+		else if (m_columns != i) return false;
+		
+		++m_rows;
 
 		char ch{};
 		ifile.get(ch);
@@ -43,10 +45,12 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 
 
 
-void printMatrix(const DynamicArray& da) {
-	for (DynamicArray::st i{ 0 }; i < da.m_rows; ++i) {
-		for (DynamicArray::st j{ 0 }; j < da.m_columns; ++j) {
-			std::cout << da.get(i, j) << ' ';
+void DynamicArray::print() const {
+	if (m_rows == 0) std::cout << "_____Матрица пуста_____";
+
+	for (DynamicArray::st i{ 0 }; i < m_rows; ++i) {
+		for (DynamicArray::st j{ 0 }; j < m_columns; ++j) {
+			std::cout << get(i, j).value() << ' ';
 		}
 
 		std::cout << '\n';
