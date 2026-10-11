@@ -45,10 +45,12 @@ public:
 
 	DynamicArray() = default;
 
-	constexpr DynamicArray::Size rows() const { return m_rows; }
-	constexpr DynamicArray::Size columns() const { return m_columns; }
+	constexpr Size rows() const { return m_rows; }
+	constexpr Size columns() const { return m_columns; }
+	constexpr Size size() const { return m_size; }
 
-	constexpr DynamicArray::Data_ptr getRow(DynamicArray::Size i) const {
+	constexpr Data_ptr dataPtr() const { return m_data; }
+	constexpr Data_ptr getRow(DynamicArray::Size i) const {
 		if (!(i < m_rows)) return nullptr;
 
 		return &(m_data[i * m_columns]);
@@ -76,8 +78,6 @@ public:
 	}
 
 	void print() const;
-
-	friend int zeroCount(const DynamicArray& da);
 
 };
 
