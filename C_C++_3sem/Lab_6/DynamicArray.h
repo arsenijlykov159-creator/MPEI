@@ -77,7 +77,7 @@ public:
 		return m_data[i * m_columns + j]; 
 	}
 
-	void print() const;
+	friend std::ostream& operator<<(std::ostream& out, const DynamicArray& da);
 
 };
 

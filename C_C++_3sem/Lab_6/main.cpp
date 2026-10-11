@@ -11,7 +11,7 @@ int zeroCount(const DynamicArray& da) {
 	if (!da.dataPtr() || da.size() == 0) return 0;
 
 	int z_count{};
-	DynamicArray::Size size{ da.size() };
+	auto size{ da.size() };
 	for (DynamicArray::Size i{ 0 }; i < size; ++i) {
 		z_count += (da.dataPtr()[i] == 0);
 	}
@@ -32,13 +32,13 @@ int zeroCount_row(const DynamicArray::Data_ptr da_row, DynamicArray::Size row_si
 }
 
 
-void multNonZero(const DynamicArray& da, std::vector<int>& res_arr) {
+void multNonZero(const DynamicArray& da, std::vector<double>& res_arr) {
 	if (!da.dataPtr() || da.size() == 0) return;
 
-	int mult{ 1 };
+	double mult{ 1 };
 
-	DynamicArray::Size rows{ da.rows() };
-	DynamicArray::Size columns{ da.columns() };
+	auto rows{ da.rows() };
+	auto columns{ da.columns() };
 	for (DynamicArray::Size i{ 0 }; i < rows; ++i) {
 		for (DynamicArray::Size j{ 0 }; j < columns; ++j) {
 			mult *= da.get(i, j).value();
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 	//Первая матрица
 	DynamicArray dynArr_1{};
 	if (!dynArr_1.getFromFile(input_file)) {
-		std::cerr << "Неверный формат матрицы!\n";
+		std::cerr << "Неверный формат матрицы 1!\n";
 		dynArr_1.clear();
 		return 3;
 	}
@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
 	//Вторая матрица
 	DynamicArray dynArr_2{};
 	if (!dynArr_2.getFromFile(input_file)) {
-		std::cerr << "Неверный формат матрицы!\n";
+		std::cerr << "Неверный формат матрицы 2!\n";
 		dynArr_1.clear();
 		dynArr_2.clear();
 		return 3;
@@ -96,8 +96,8 @@ int main(int argc, char* argv[]) {
 
 
 
-	dynArr_1.print();
-	dynArr_2.print();
+	std::cout << dynArr_1 << '\n';
+	std::cout << dynArr_2 << '\n';
 
 
 
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	
-	std::vector<int> result{};
+	std::vector<double> result{};
 	if (zero_count_1 < zero_count_2) multNonZero(dynArr_1, result);
 	else multNonZero(dynArr_2, result);
 

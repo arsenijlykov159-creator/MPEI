@@ -6,13 +6,12 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 
 	clear();
 
-	m_capacity = 7;
+	m_capacity = 5;
 	m_data = new (std::nothrow) double[m_capacity];
 
 	double element{};
 
 	while (true) {
-		Size i{ 0 };
 
 		while (!isNewLine(ifile) && !ifile.eof()) {
 			if (ifile >> element) {
@@ -25,21 +24,23 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 				}
 
 				m_data[m_size] = element;
-				++i;
 				++m_size;
 			}
 			else return false;
 		}
-		if (i == 0) return true;
+		if (m_size == 0) return false;
+
+		//std::cout << m_size << ' ' << m_columns << '\n';
 		
-		if (m_columns == 0) m_columns = i;
-		else if (m_columns != i) return false;
+		if (m_columns == 0) m_columns = m_size;
+		else if (m_size % m_columns != 0) return false;
 		
 		++m_rows;
 
 		char ch{};
 		ifile.get(ch);
 		if (isNewLine(ifile) || ifile.eof()) {
+
 			ifile.get(ch);
 			return true;
 		}
@@ -47,15 +48,16 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 }
 
 
+std::ostream& operator<<(std::ostream& out, const DynamicArray& da) {
+	if (da.m_size == 0) out << "_____Матрица пуста_____";
 
-void DynamicArray::print() const {
-	if (m_rows == 0) std::cout << "_____Матрица пуста_____";
-
-	for (DynamicArray::Size i{ 0 }; i < m_rows; ++i) {
-		for (DynamicArray::Size j{ 0 }; j < m_columns; ++j) {
-			std::cout << get(i, j).value() << ' ';
+	for (DynamicArray::Size i{ 0 }; i < da.m_rows; ++i) {
+		for (DynamicArray::Size j{ 0 }; j < da.m_columns; ++j) {
+			out << da.get(i, j).value() << ' ';
 		}
 
-		std::cout << '\n';
+		out << '\n';
 	}
+
+	return out;
 }
