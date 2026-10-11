@@ -12,7 +12,7 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 	double element{};
 
 	while (true) {
-		st i{ 0 };
+		Size i{ 0 };
 
 		while (!isNewLine(ifile) && !ifile.eof()) {
 			if (ifile >> element) {
@@ -51,8 +51,8 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 void DynamicArray::print() const {
 	if (m_rows == 0) std::cout << "_____Матрица пуста_____";
 
-	for (DynamicArray::st i{ 0 }; i < m_rows; ++i) {
-		for (DynamicArray::st j{ 0 }; j < m_columns; ++j) {
+	for (DynamicArray::Size i{ 0 }; i < m_rows; ++i) {
+		for (DynamicArray::Size j{ 0 }; j < m_columns; ++j) {
 			std::cout << get(i, j).value() << ' ';
 		}
 

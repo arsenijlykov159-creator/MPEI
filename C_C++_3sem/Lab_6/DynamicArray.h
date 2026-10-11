@@ -8,17 +8,18 @@
 #include <vector>
 #include <new>
 
+
 class DynamicArray {
 public:
-	using st = std::size_t;
-	using Data = double*;
+	using Size = std::size_t;
+	using Data_ptr = double*;
 
 private:
-	Data m_data{};
-	st m_rows{};
-	st m_columns{};
-	st m_size{};
-	st m_capacity{};
+	Data_ptr m_data{};
+	Size m_rows{};
+	Size m_columns{};
+	Size m_size{};
+	Size m_capacity{};
 
 	bool isNewLine(std::ifstream& ifile) {
 		if (!ifile.is_open()) return false;
@@ -35,14 +36,23 @@ private:
 	}
 
 	void copy(double* new_da) {
-		st count{ m_size };
+		Size count{ m_size };
 
-		for (st i{ 0 }; i < count; ++i) { m_data[i] = new_da[i]; }
+		for (Size i{ 0 }; i < count; ++i) { m_data[i] = new_da[i]; }
 	}
 
 public:
 
 	DynamicArray() = default;
+
+	constexpr DynamicArray::Size rows() const { return m_rows; }
+	constexpr DynamicArray::Size columns() const { return m_columns; }
+
+	constexpr DynamicArray::Data_ptr getRow(DynamicArray::Size i) const {
+		if (!(i < m_rows)) return nullptr;
+
+		return &(m_data[i * m_columns]);
+	}
 
 	void clear() {
 		delete[] m_data;
@@ -52,20 +62,22 @@ public:
 
 	bool getFromFile(std::ifstream& ifile);
 
-	constexpr bool set(st i, st j, double element) {
+	constexpr bool set(Size i, Size j, double element) {
 		if (!(i < m_rows && j < m_columns)) return false;
 
 		m_data[i * m_columns + j] = element;
 		return true;
 	}
 
-	std::optional<double> get(st i, st j) const { 
+	std::optional<double> get(Size i, Size j) const {
 		if (!(i < m_rows && j < m_columns)) return {};
 
 		return m_data[i * m_columns + j]; 
 	}
 
 	void print() const;
+
+	friend int zeroCount(const DynamicArray& da);
 
 };
 
