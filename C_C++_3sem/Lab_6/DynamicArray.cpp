@@ -29,8 +29,6 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 			else return false;
 		}
 		if (m_size == 0) return false;
-
-		//std::cout << m_size << ' ' << m_columns << '\n';
 		
 		if (m_columns == 0) m_columns = m_size;
 		else if (m_size % m_columns != 0) return false;
@@ -47,6 +45,55 @@ bool DynamicArray::getFromFile(std::ifstream& ifile) {
 	}
 }
 
+std::istream& operator>>(std::istream& in, DynamicArray& da) {
+	if (!in) return in;
+
+	da.clear();
+
+	da.m_capacity = 5;
+	da.m_data = new (std::nothrow) double[da.m_capacity];
+
+	double element{};
+
+	while (true) {
+
+		while (!da.isNewLine(in) && !in.eof()) {
+			if (in >> element) {
+				if (!(da.m_size < da.m_capacity)) {
+					da.m_capacity *= 2;
+
+					double* temp{ da.m_data };
+					da.m_data = new (std::nothrow) double[da.m_capacity];
+					da.copy(temp);
+				}
+
+				da.m_data[da.m_size] = element;
+				++da.m_size;
+			}
+			else return in;
+		}
+		if (da.m_size == 0) {
+			in.setstate(std::ios::failbit);
+			return in;
+		}
+
+		if (da.m_columns == 0) da.m_columns = da.m_size;
+		else if (da.m_size % da.m_columns != 0) {
+			in.setstate(std::ios::failbit);
+			return in;
+		}
+
+		++da.m_rows;
+
+		char ch{};
+		in.get(ch);
+		if (da.isNewLine(in) || in.eof()) {
+
+			in.get(ch);
+			return in;
+		}
+	}
+}
 
 std::ostream& operator<<(std::ostream& out, const DynamicArray& da) {
 	if (da.m_size == 0) out << "_____Матрица пуста_____";

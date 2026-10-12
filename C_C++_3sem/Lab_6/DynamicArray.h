@@ -21,8 +21,8 @@ private:
 	Size m_size{};
 	Size m_capacity{};
 
-	bool isNewLine(std::ifstream& ifile) {
-		if (!ifile.is_open()) return false;
+	bool isNewLine(std::istream& ifile) {
+		if (!ifile) return false;
 
 		int next_elem{};
 
@@ -64,6 +64,7 @@ public:
 
 	bool getFromFile(std::ifstream& ifile);
 
+
 	constexpr bool set(Size i, Size j, double element) {
 		if (!(i < m_rows && j < m_columns)) return false;
 
@@ -77,6 +78,7 @@ public:
 		return m_data[i * m_columns + j]; 
 	}
 
+	friend std::istream& operator>>(std::istream& in, DynamicArray& da);
 	friend std::ostream& operator<<(std::ostream& out, const DynamicArray& da);
 
 };
