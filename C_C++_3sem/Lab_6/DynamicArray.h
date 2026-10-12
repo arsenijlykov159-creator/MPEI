@@ -5,8 +5,6 @@
 #include <iostream>
 #include <optional>
 #include <fstream>
-#include <vector>
-#include <new>
 
 
 class DynamicArray {
@@ -21,18 +19,16 @@ private:
 	Size m_size{};
 	Size m_capacity{};
 
-	bool isNewLine(std::istream& ifile) {
-		if (!ifile) return false;
+	bool isNewLine(std::istream& in) {
+		if (!in) return false;
 
-		int next_elem{};
+		while (in.peek() == ' ') in.get();
 
-		do {
-			next_elem = ifile.get();
-		} while (next_elem == ' ');
+		int next_elem{ in.peek() };
 
-		ifile.unget();
+		if (next_elem == -1) return false;
 
-		return (next_elem == '\n' || next_elem == 'r' || next_elem == -1);
+		return (next_elem == '\n' || next_elem == '\r');
 	}
 
 	void copy(double* new_da) {
@@ -62,8 +58,7 @@ public:
 		m_rows = m_columns = m_size = m_capacity = 0;
 	}
 
-	bool getFromFile(std::ifstream& ifile);
-
+	//bool getFromFile(std::ifstream& ifile);
 
 	constexpr bool set(Size i, Size j, double element) {
 		if (!(i < m_rows && j < m_columns)) return false;
@@ -71,7 +66,6 @@ public:
 		m_data[i * m_columns + j] = element;
 		return true;
 	}
-
 	std::optional<double> get(Size i, Size j) const {
 		if (!(i < m_rows && j < m_columns)) return {};
 

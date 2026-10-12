@@ -35,17 +35,21 @@ int zeroCount_row(const DynamicArray::Data_ptr da_row, DynamicArray::Size row_si
 void multNonZero(const DynamicArray& da, std::vector<double>& res_arr) {
 	if (!da.dataPtr() || da.size() == 0) return;
 
+	bool isFindNonZero{ false };
+
 	auto rows{ da.rows() };
 	auto columns{ da.columns() };
 	for (DynamicArray::Size i{ 0 }; i < rows; ++i) {
 		double mult{ 1 };
 
 		for (DynamicArray::Size j{ 0 }; j < columns; ++j) {
-			std::cout << da.get(i, j).value() << ' ';
-			if (da.get(i, j).value() != 0) mult *= da.get(i, j).value();
+			if (da.get(i, j).value() != 0) {
+				mult *= da.get(i, j).value();
+				isFindNonZero = true;
+			}
 		}
 
-		res_arr.push_back(mult);
+		res_arr.push_back(isFindNonZero ? mult : -1);
 	}
 }
 
@@ -126,13 +130,19 @@ int main(int argc, char* argv[]) {
 	//vector
 	std::vector<double> result{};
 	if (zero_count_1 < zero_count_2) multNonZero(dynArr_1, result);
-	else multNonZero(dynArr_2, result);
+	else if (zero_count_1 > zero_count_2) multNonZero(dynArr_2, result);
+	else {
+		output_file << "В матрицах одинаковое количество нулевых элементов!\n";
+		dynArr_1.clear();
+		dynArr_2.clear();
+		return 5;
+	}
 
 	if (result.empty()) {
 		std::cerr << "Что-то пошло не так!\n";
 		dynArr_1.clear();
 		dynArr_2.clear();
-		return 4;
+		return 6;
 	}
 
 	output_file << "Произведение ненулевых элементов в матрице с наименьшим количеством нулей: " << result << '\n';
