@@ -75,6 +75,14 @@ public:
 	friend std::istream& operator>>(std::istream& in, DynamicArray& da);
 	friend std::ostream& operator<<(std::ostream& out, const DynamicArray& da);
 
+	~DynamicArray() {
+		clear();
+	}
+
+	DynamicArray(const DynamicArray& other) = delete;
+
+	DynamicArray& operator=(const DynamicArray& other) = delete;
+
 };
 
 

@@ -86,7 +86,6 @@ int main(int argc, char* argv[]) {
 	DynamicArray dynArr_1{};
 	if (!(input_file >> dynArr_1)) {
 		std::cerr << "Неверный формат матрицы 1!\n";
-		dynArr_1.clear();
 		return 3;
 	}
 
@@ -94,8 +93,6 @@ int main(int argc, char* argv[]) {
 	DynamicArray dynArr_2{};
 	if (!(input_file >> dynArr_2)) {
 		std::cerr << "Неверный формат матрицы 2!\n";
-		dynArr_1.clear();
-		dynArr_2.clear();
 		return 3;
 	}
 
@@ -106,8 +103,6 @@ int main(int argc, char* argv[]) {
 	std::ofstream output_file{ argv[2], std::ios::out };
 	if (!output_file.is_open()) {
 		std::cerr << "Невозможно открыть выходной файл!\n";
-		dynArr_1.clear();
-		dynArr_2.clear();
 		return 4;
 	}
 
@@ -133,25 +128,17 @@ int main(int argc, char* argv[]) {
 	else if (zero_count_1 > zero_count_2) multNonZero(dynArr_2, result);
 	else {
 		output_file << "В матрицах одинаковое количество нулевых элементов!\n";
-		dynArr_1.clear();
-		dynArr_2.clear();
 		return 5;
 	}
 
 	if (result.empty()) {
 		std::cerr << "Что-то пошло не так!\n";
-		dynArr_1.clear();
-		dynArr_2.clear();
 		return 6;
 	}
 
 	output_file << "Произведение ненулевых элементов в матрице с наименьшим количеством нулей: " << result << '\n';
 
 	output_file.close();
-
-
-	dynArr_1.clear();
-	dynArr_2.clear();
 
 	std::cout << "\n_____Done!_____\n";
 
