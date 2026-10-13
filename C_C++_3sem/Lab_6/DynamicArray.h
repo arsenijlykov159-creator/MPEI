@@ -31,10 +31,12 @@ private:
 		return (next_elem == '\n' || next_elem == '\r');
 	}
 
-	void copy(double* new_da) {
+	void copy(double* new_data) {
+		if (!new_data) return;
+
 		Size count{ m_size };
 
-		for (Size i{ 0 }; i < count; ++i) { m_data[i] = new_da[i]; }
+		for (Size i{ 0 }; i < count; ++i) { m_data[i] = new_data[i]; }
 	}
 
 public:
