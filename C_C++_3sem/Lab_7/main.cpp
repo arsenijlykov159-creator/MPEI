@@ -10,13 +10,11 @@ void ignoreLine(std::istream& in) {
 }
 
 
-BitType getBitValue(std::istream& in, BitType& bt) {
-	bt = {};
+BitType getBitValue(std::istream& in) {
 
 	while (true) {
+		BitType bt{};
 		in >> bt;
-
-		//while (in.peek() != '\n') in.get();
 
 		bool success{ in && in.peek() == '\n'};
 		in.clear();
@@ -45,15 +43,13 @@ int main(int argc, char* argv[]) {
 		return 2;
 	}
 
-	BitType value{};
+	BitType value{ getBitValue(std::cin) };
 
 #if !defined(SHORT_T)
 	std::cout << "Введи значение типа " << typeid(BitType).name() << " (от " << std::numeric_limits<BitType>::min() << " до " << std::numeric_limits<BitType>::max() << "): ";
 #else 
 	std::cout << "Введи значение типа " << typeid(BitType).name() << " (ровно один символ): ";
 #endif
-
-	getBitValue(std::cin, value);
 
 	std::cout << value << '\n';
 
