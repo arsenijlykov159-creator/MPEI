@@ -43,13 +43,13 @@ int main(int argc, char* argv[]) {
 		return 2;
 	}
 
-	BitType value{ getBitValue(std::cin) };
-
 #if !defined(SHORT_T)
 	std::cout << "Введи значение типа " << typeid(BitType).name() << " (от " << std::numeric_limits<BitType>::min() << " до " << std::numeric_limits<BitType>::max() << "): ";
 #else 
 	std::cout << "Введи значение типа " << typeid(BitType).name() << " (ровно один символ): ";
 #endif
+
+	BitType value{ getBitValue(std::cin) };
 
 	std::cout << value << '\n';
 
