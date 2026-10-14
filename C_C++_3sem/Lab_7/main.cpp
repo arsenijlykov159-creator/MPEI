@@ -4,6 +4,7 @@
 #include <limits>
 #include <cmath>
 #include "Type.h"
+#include "Check.h"
 
 
 //std::size_t twoPow(std::size_t indicator) {
@@ -28,6 +29,8 @@ BitType getBitValue(std::istream& in) {
 		std::size_t bt{};
 		in >> bt;
 
+		while (in.peek() == ' ') in.get();
+
 		bool success{ in && in.peek() == '\n'};
 		in.clear();
 		ignoreLine(in);
@@ -39,17 +42,19 @@ BitType getBitValue(std::istream& in) {
 }
 
 
-std::size_t getShiftCount(std::istream& in) {
+BitType getShiftCount(std::istream& in) {
 
 	while (true) {
 		long long count{};
 		in >> count;
 
+		while (in.peek() == ' ') in.get();
+
 		bool success{ in && in.peek() == '\n' };
 		in.clear();
 		ignoreLine(in);
 
-		if (success && (count >= 0)) return static_cast<std::size_t>(count);
+		if (success && (count >= 0)) return static_cast<BitType>(count);
 		else std::cerr << "Неверное количество бит для сдвига!\n";
 	}
 
@@ -69,33 +74,20 @@ BitType rotl(BitType bt, std::size_t rotl_count) {
 }
 
 
-
 void printFormat(BitType bt, BitType exp) {
 	if (bt < exp) {
-		std::cout << bt;
+		std::cout << static_cast<std::size_t>(bt);
 		return;
 	}
-	printFormat((bt / exp), exp);
+	printFormat(static_cast<BitType>(bt / exp), exp);
 
-	std::cout << (bt % exp);
+	std::cout << static_cast<std::size_t>(bt % exp);
 }
 
 
-int main(int argc, char* argv[]) {
+int main() {
 
 	setlocale(LC_ALL, "russian");
-
-	if (argc < 2) {
-		std::cerr << "Недостаточно входных параметров!\n";
-		return 1;
-	}
-
-	std::ifstream input_file{ argv[1], std::ios::in };
-
-	if (!input_file.is_open()) {
-		std::cerr << "Невозможно открыть входной файл!\n";
-		return 2;
-	}
 	
 #if !defined(SHORT_T)
 	std::cout << "Введи значение типа " << typeid(BitType).name() << " (от " << std::numeric_limits<BitType>::min() << " до " << std::numeric_limits<BitType>::max() << "): ";
@@ -105,18 +97,34 @@ int main(int argc, char* argv[]) {
 
 	BitType value{ getBitValue(std::cin) };
 
-	std::cout << value << '\n';
-
 	std::cout << "Введи количество бит для сдвига ( >= 0 ): ";
 
-	std::size_t bit_count{ getShiftCount(std::cin) };
+	BitType bit_count{ getShiftCount(std::cin) };
 
-	std::cout << bit_count << '\n';
+	std::cout << "\nВы ввели:\nНачальное число (bin - dec - hex): ";
+	printFormat(value, 2);
+	std::cout << " - ";
+	printFormat(value, 10);
+	std::cout << " - "; 
+	printFormat(value, 16);
+	std::cout << '\n';
 
-	printFormat(rotl(value, bit_count), 10);
+	std::cout << "Сдвинуть биты на: " << bit_count << "\n\n";
+
+	BitType result{ rotl(value, bit_count) };
+
+	std::cout << "Результат (bin - dec - hex): ";
+	printFormat(result, 2);
+	std::cout << " - ";
+	printFormat(result, 10);
+	std::cout << " - ";
+	printFormat(result, 16);
+	std::cout << '\n';
 	
 
-	input_file.close();
+	check(value, *rotl);
+
+	std::cout << "\n_____Все провекри пройдены!_____\n";
 
 	return 0;
 }
