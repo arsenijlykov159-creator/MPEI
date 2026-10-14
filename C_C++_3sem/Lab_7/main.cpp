@@ -69,6 +69,18 @@ BitType rotl(BitType bt, std::size_t rotl_count) {
 }
 
 
+
+void printFormat(BitType bt, BitType exp) {
+	if (bt < exp) {
+		std::cout << bt;
+		return;
+	}
+	printFormat((bt / exp), exp);
+
+	std::cout << (bt % exp);
+}
+
+
 int main(int argc, char* argv[]) {
 
 	setlocale(LC_ALL, "russian");
@@ -101,7 +113,7 @@ int main(int argc, char* argv[]) {
 
 	std::cout << bit_count << '\n';
 
-	std::cout << rotl(value, bit_count);
+	printFormat(rotl(value, bit_count), 10);
 	
 
 	input_file.close();

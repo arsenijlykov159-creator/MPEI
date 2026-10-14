@@ -4,8 +4,8 @@
 #include <cstdint>
 
 //#define CHAR_T
-#define SHORT_T
-//#define INT_T
+//#define SHORT_T
+#define INT_T
 //#define LONG_LONG_T
 
 
