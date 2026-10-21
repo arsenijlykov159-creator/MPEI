@@ -5,6 +5,7 @@
 #include <cassert>
 #include "Type.h"
 
+
 void check(BitType bt, BitType(*fcn)(BitType, std::size_t)) {
 
 	switch (sizeof(bt) * 8) {

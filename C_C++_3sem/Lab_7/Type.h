@@ -21,5 +21,10 @@ using BitType = std::uint64_t;
 #endif
 
 
+BitType getBitValue(std::istream& in);
+
+BitType rotl(BitType bt, std::size_t rotl_count);
+
+
 
 #endif

@@ -132,9 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="input.txt" />
+    <ClCompile Include="Type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Check.h" />
