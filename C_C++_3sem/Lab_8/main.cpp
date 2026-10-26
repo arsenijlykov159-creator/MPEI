@@ -16,16 +16,19 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	char string[STR::MAX_LENGTH];
+	STRING string{ "hello, world!" };
 
-	if (!STR::strGet(argv[1], string)) {
-		std::cerr << "No!\n";
-		return 2;
-	}
+	std::cout << string.size() << '\n';
 
-	if (!STR::strPrint(argv[2], string)) std::cerr << "Error!\n";
+	string.get(argv[1]);
 
+	std::cout << string.size() << '\n';
 
+	string.addToStr(" I am Arseniy!");
+
+	std::cout << string.size() << '\n';
+
+	string.print(argv[2]);
 
 	return 0;
 }
