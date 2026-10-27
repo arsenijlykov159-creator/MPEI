@@ -16,17 +16,11 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	STRING string{ "hello, world!" };
-
-	std::cout << string.size() << '\n';
+	STRING string{};
 
 	string.get(argv[1]);
 
-	std::cout << string.size() << '\n';
-
-	string.addToStr(" I am Arseniy!");
-
-	std::cout << string.size() << '\n';
+	string.replaceSubStr("!!!", "ooo");
 
 	string.print(argv[2]);
 

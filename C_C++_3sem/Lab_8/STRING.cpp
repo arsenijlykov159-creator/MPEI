@@ -44,12 +44,18 @@ void STRING::addToStr(const char new_str[]) {
 	
 	if (!m_data) {
 		m_data = new (std::nothrow) char[new_str_len + 1];
-		if (!m_data) return;
+		/*if (!m_data) {
+			delete[] m_data;
+			return;
+		}*/
 	}
 	else {
 		auto temp{ m_data };
 		m_data = new (std::nothrow) char[m_size + new_str_len + 1];
-		if (!m_data) return;
+		/*if (!m_data) {
+			delete[] m_data;
+			return;
+		}*/
 		for (Size i{ 0 }; i < m_size; ++i) {
 			m_data[i] = temp[i];
 		}
@@ -63,4 +69,54 @@ void STRING::addToStr(const char new_str[]) {
 
 	m_data[m_size + new_str_len] = '\0';
 	m_size += new_str_len;
+}
+
+
+bool STRING::replaceSubStr(const char oldsub[], const char newsub[]) {
+	if (!m_data || !oldsub || !newsub) return 0;
+	if (m_size < strlen(oldsub)) return 0;
+
+
+	STRING new_str{ MAX_LENGTH };
+	Size oldsub_length{ strlen(oldsub) };
+
+	bool isSubInStr{};
+
+	for (Size i{ 0 }; i < m_size; ++i) {
+
+		if (m_data[i] != oldsub[0]) {
+			char elem[2]{ m_data[i], '\0'};
+			new_str.addToStr(elem);
+			continue;
+		}
+
+		Size count{};
+
+		for (Size j{ 0 }; j < oldsub_length/* && i + j < m_size*/; ++j) {
+			if (m_data[i + j] == oldsub[j]) ++count;
+		}
+
+		if (count == oldsub_length) {
+			new_str.addToStr(newsub);
+			i += oldsub_length - 1;
+
+			isSubInStr = 1;
+		}
+		else {
+			for (Size k{ 0 }; k < count/* && i + k < m_size*/; ++k) {
+				char elem[2]{ m_data[i + k], '\0'};
+				new_str.addToStr(elem);
+			}
+
+			i += count - 1;
+		}
+
+		/*for (Size it{ 0 }; it < new_str.m_size; ++it) std::cout << new_str.m_data[it] << ' ';
+		std::cout << new_str.m_size << ' ' << i << '\n';*/
+	}
+
+	new_str[new_str.m_size] = '\0';
+	strcopy(new_str);
+
+	return isSubInStr;
 }
