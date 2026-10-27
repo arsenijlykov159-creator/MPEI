@@ -24,7 +24,8 @@ bool STRING::get(const char* filename) {
 	Size str_size{ input_string.size() };
 
 	delete[] m_data;
-	m_data = new (std::nothrow) char[str_size + 1];
+	m_capacity = str_size + 1;
+	m_data = new (std::nothrow) char[m_capacity];
 
 	for (Size i{ 0 }; i < str_size; ++i) {
 		m_data[i] = input_string[i];
@@ -39,36 +40,32 @@ bool STRING::get(const char* filename) {
 
 void STRING::addToStr(const char new_str[]) {
 	if (!new_str) return;
-	
+
 	Size new_str_len{ strlen(new_str) };
-	
-	if (!m_data) {
-		m_data = new (std::nothrow) char[new_str_len + 1];
-		/*if (!m_data) {
-			delete[] m_data;
-			return;
-		}*/
+	Data temp_ptr{};
+
+	if (m_capacity < m_size + new_str_len + 1) {
+		m_capacity = m_size + new_str_len + 1;
+		temp_ptr = new (std::nothrow) char[m_capacity];
+
+		for (Size i{ 0 }; i < m_size; ++i) {
+			temp_ptr[i] = m_data[i];
+		}
 	}
 	else {
-		auto temp{ m_data };
-		m_data = new (std::nothrow) char[m_size + new_str_len + 1];
-		/*if (!m_data) {
-			delete[] m_data;
-			return;
-		}*/
-		for (Size i{ 0 }; i < m_size; ++i) {
-			m_data[i] = temp[i];
-		}
-		delete[] temp;
+		temp_ptr = m_data;
 	}
-	
 
 	for (Size i{ 0 }; i < new_str_len; ++i) {
-		m_data[i + m_size] = new_str[i];
+		temp_ptr[i + m_size] = new_str[i];
 	}
 
-	m_data[m_size + new_str_len] = '\0';
 	m_size += new_str_len;
+	temp_ptr[m_size] = '\0';
+	if (m_data != temp_ptr) {
+		delete[] m_data;
+		m_data = temp_ptr;
+	}
 }
 
 
@@ -92,7 +89,7 @@ bool STRING::replaceSubStr(const char oldsub[], const char newsub[]) {
 
 		Size count{};
 
-		for (Size j{ 0 }; j < oldsub_length/* && i + j < m_size*/; ++j) {
+		for (Size j{ 0 }; j < oldsub_length && i + j < m_size; ++j) {
 			if (m_data[i + j] == oldsub[j]) ++count;
 		}
 
@@ -103,19 +100,15 @@ bool STRING::replaceSubStr(const char oldsub[], const char newsub[]) {
 			isSubInStr = 1;
 		}
 		else {
-			for (Size k{ 0 }; k < count/* && i + k < m_size*/; ++k) {
+			for (Size k{ 0 }; k < count && i + k < m_size; ++k) {
 				char elem[2]{ m_data[i + k], '\0'};
 				new_str.addToStr(elem);
 			}
 
 			i += count - 1;
 		}
-
-		/*for (Size it{ 0 }; it < new_str.m_size; ++it) std::cout << new_str.m_data[it] << ' ';
-		std::cout << new_str.m_size << ' ' << i << '\n';*/
 	}
 
-	new_str[new_str.m_size] = '\0';
 	strcopy(new_str);
 
 	return isSubInStr;

@@ -17,6 +17,7 @@ public:
 private:
 	char* m_data{ nullptr };
 	Size m_size{};
+	Size m_capacity{};
 
 	Size strlen(const char str[]) {
 		if (!str) return 0;
@@ -28,9 +29,10 @@ private:
 	}
 
 	void strcopy(const STRING& str) {
-		if (!str.m_data || m_data == str.m_data) return;
+		if (!str.m_data || this == &str) return;
 
-		Data new_data{ new (std::nothrow) char[str.m_size + 1] };	
+		if (m_capacity < str.m_size + 1) m_capacity = str.m_size + 1;
+		Data new_data{ new (std::nothrow) char[m_capacity]};
 		if (!new_data) return;
 
 		for (Size i{ 0 }; i < str.m_size; ++i) {
@@ -45,26 +47,20 @@ private:
 
 public:
 	STRING() = default;
-	explicit STRING(const char str[]) : m_size{ strlen(str) } {
+	explicit STRING(const char str[]) : m_size{ strlen(str) }, m_capacity{ strlen(str) + 1 } {
 		if (!str) return;
 
-		Size str_length{ strlen(str) };
-		m_data = new (std::nothrow) char[str_length + 1];
+		m_data = new (std::nothrow) char[m_capacity];
 
-		for (Size i{ 0 }; i < str_length; ++i) {
+		for (Size i{ 0 }; i < m_size; ++i) {
 			m_data[i] = str[i];
 		}
 
-		m_data[str_length] = '\0';
+		m_data[m_size] = '\0';
 	}
-	explicit STRING(Size size) { m_data = new (std::nothrow) char[size + 1]; }
+	explicit STRING(Size size) : m_capacity{ size + 1 } { m_data = new (std::nothrow) char[m_capacity]; }
 
 	Size size() const { return m_size; }
-	std::optional<char> operator[](Size index) {
-		if (!(index < m_size)) return {};
-
-		return m_data[index];
-	}
 
 	bool print(const char* filename) const;
 
@@ -78,6 +74,7 @@ public:
 		delete[] m_data;
 		m_data = nullptr;
 		m_size = 0;
+		m_capacity = 0;
 	}
 
 };
