@@ -94,3 +94,5 @@ extern "C" __declspec(dllexport) bool __cdecl C_ReplaceInFiles(const char* input
 	str.replaceSubStr(oldsub, newsub);
 	return str.print(output_file);
 }
+
+typedef MyType::STRING_T* (*CreateClassFunc)();

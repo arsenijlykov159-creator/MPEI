@@ -4,9 +4,11 @@
 
 int main()
 {
-	MyType::STRING_T mystring{};
+	MyType::STRING_T mystring;
 	
 	mystring.get("input.txt");
+
+	mystring.replaceSubStr("Arseniy", "fox");
 
 	mystring.print("output.txt");
 
