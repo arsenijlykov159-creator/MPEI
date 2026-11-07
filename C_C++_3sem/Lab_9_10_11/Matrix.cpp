@@ -146,3 +146,16 @@ Matrix& Matrix::operator+=(const Matrix& m) {
 
 	return *this;
 }
+
+
+Matrix operator+(const Matrix& m1, const Matrix& m2) {
+	Matrix temp{ m1 };
+	temp += m2;
+	return temp;
+}
+
+Matrix operator-(const Matrix& m1, const Matrix& m2) {
+	Matrix temp{ m1 };
+	temp += m2.negative();
+	return temp;
+}
