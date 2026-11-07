@@ -13,7 +13,7 @@ Matrix::Matrix(const Matrix& matrix, int value) : m_rows{ matrix.m_rows }, m_col
 
 	for (Size i{ 0 }; i < m_rows; ++i) {
 		for (Size j{ 0 }; j < m_columns; ++j) {
-			m_data[i * m_columns + j] = matrix[i][j] + value;
+			(*this)[i][j] = matrix[i][j] + value;
 		}
 	}
 
@@ -41,6 +41,17 @@ Matrix::~Matrix() {
 	std::cout << "Вызван деструктор!\n";
 }
 
+Matrix::operator double() const {
+	if (m_rows * m_columns == 0) return 0.0;
+
+	int sum{};
+
+	for (Size i{ 0 }; i < m_rows * m_columns; ++i) sum += m_data[i];
+
+	std::cout << "Вызвано преобразование из Matrix в double!\n";
+	return static_cast<double>(sum) / (m_rows * m_columns);
+}
+
 
 
 std::istream& operator>>(std::istream& in, Matrix& matrix) {
@@ -61,12 +72,12 @@ std::istream& operator>>(std::istream& in, Matrix& matrix) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Matrix& matrix) {
-	std::cout << matrix.m_rows << ' ' << matrix.m_columns << ' ' << matrix.m_capacity << '\n';
+	std::cout << matrix.m_rows << " - " << matrix.m_columns << " | " << matrix.m_capacity << '\n';
 	if (!matrix.m_data) return out;
 
 	for (Matrix::Size i{ 0 }; i < matrix.m_rows; ++i) {
 		for (Matrix::Size j{ 0 }; j < matrix.m_columns; ++j) {
-			out << matrix.m_data[i * matrix.m_columns + j] << ' ';
+			out << matrix[i][j] << ' ';
 		}
 		out << '\n';
 	}
@@ -74,17 +85,64 @@ std::ostream& operator<<(std::ostream& out, const Matrix& matrix) {
 }
 
 
+Matrix& Matrix::operator=(const Matrix& m) {
+	if (this == &m) return *this;
 
-Matrix operator+(const Matrix& m1, const Matrix& m2) {
-	assert(m1.m_rows == m2.m_rows && m1.m_columns == m2.m_columns && "Невозможно сложить матрицы разных размеров");
+	Matrix::Data temp{ new (std::nothrow) int[m.m_capacity] };
+	if (!temp) return *this;
 
-	Matrix temp{m1.m_rows, m2.m_columns};
-
-	for (Matrix::Size i{ 0 }; i < m1.m_rows; ++i) {
-		for (Matrix::Size j{ 0 }; j < m1.m_columns; ++j) {
-			temp[i][j] = m1[i][j] + m2[i][j];
-		}
+	for (Size i{ 0 }; i < m.m_rows * m.m_columns; ++i) {
+		temp[i] = m.m_data[i];
 	}
 
-	return temp;
+	delete[] m_data;
+	m_data = temp;
+	temp = nullptr;
+	m_rows = m.m_rows;
+	m_columns = m.m_columns;
+	m_capacity = m.m_capacity;
+
+	std::cout << "Вызван operator=(const Matrix&)\n";
+
+	return *this;
+}
+
+Matrix& Matrix::operator=(Matrix&& m) noexcept {
+	if (this == &m) return *this;
+
+	delete[] m_data;
+	m_data = m.m_data;
+	m_rows = m.m_rows;
+	m_columns = m.m_columns;
+	m_capacity = m.m_capacity;
+
+	m.m_data = nullptr;
+	m.m_rows = 0;
+	m.m_columns = 0;
+	m.m_capacity = 0;
+
+	std::cout << "Вызван operator=(Matrix&&)\n";
+	return *this;
+}
+
+bool operator==(const Matrix& m1, const Matrix& m2) {
+	if (!m1.m_data || !m2.m_data) return false;
+	if (m1.m_rows != m2.m_rows || m1.m_columns != m2.m_columns || m1.m_capacity != m2.m_capacity) return false;
+
+	for (Matrix::Size i{ 0 }; i < m1.m_rows * m1.m_columns; ++i) {
+		if (m1.m_data[i] != m2.m_data[i]) return false;
+	}
+
+	return true;
+}
+
+Matrix& Matrix::operator+=(const Matrix& m) {
+	assert(m_rows == m.m_rows && m_columns == m.m_columns && "Matrix::operator+=");
+	if (!m.m_data) return *this;
+
+	for (Size i{ 0 }; i < m_rows * m_columns; ++i) {
+		m_data[i] += m.m_data[i];
+	}
+
+	return *this;
 }

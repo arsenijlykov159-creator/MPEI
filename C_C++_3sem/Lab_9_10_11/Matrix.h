@@ -37,16 +37,7 @@ public:
 
 	explicit Matrix(int value);
 
-	operator double() const {
-		if (m_rows * m_columns == 0) return 0.0;
-
-		int sum{};
-
-		for (Size i{ 0 }; i < m_rows * m_columns; ++i) sum += m_data[i];
-
-		std::cout << "Вызвано преобразование из Matrix в double!\n";
-		return static_cast<double>(sum) / (m_rows * m_columns);
-	}
+	explicit operator double() const;
 
 	friend std::istream& operator>>(std::istream& in, Matrix& matrix);
 
@@ -57,16 +48,23 @@ public:
 
 
 	
+	Matrix& operator=(const Matrix& m);
 
+	Matrix& operator=(Matrix&& m) noexcept;
 
+	friend bool operator==(const Matrix& m1, const Matrix& m2);
 
-	Data operator[](Size index) const {
-		assert(index < m_rows && "Такой строки в матрице нет");
+	const int* operator[](Size index) const {
+		assert((index < m_rows) && m_data && "Matrix::operator[]");
 
-		return &(m_data[index * m_columns]);
+		return m_data + (index * m_columns);
+	}
+	
+	Data operator[](Size index) {
+		return const_cast<Data>(std::as_const(*this)[index]);
 	}
 
-	friend Matrix operator+(const Matrix& m1, const Matrix& m2);
+	Matrix& operator+=(const Matrix& m);
 
 };
 
