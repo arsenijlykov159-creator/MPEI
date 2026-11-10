@@ -19,6 +19,17 @@ private:
 	Size m_columns{};
 	Size m_capacity{};
 
+	Matrix negative() const {
+		assert(m_data);
+
+		Matrix result{ m_rows, m_columns };
+		for (Size i{ 0 }; i < m_rows * m_columns; ++i) {
+			result.m_data[i] = -1 * m_data[i];
+		}
+
+		return result;
+	}
+
 	void clear() {
 		delete[] m_data;
 		m_data = nullptr;
@@ -54,17 +65,22 @@ public:
 
 	friend bool operator==(const Matrix& m1, const Matrix& m2);
 
+	friend std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2);
+
 	const int* operator[](Size index) const {
 		assert((index < m_rows) && m_data && "Matrix::operator[]");
 
 		return m_data + (index * m_columns);
 	}
 	
-	Data operator[](Size index) {
-		return const_cast<Data>(std::as_const(*this)[index]);
-	}
+	Data operator[](Size index) { return const_cast<Data>(std::as_const(*this)[index]); }
 
 	Matrix& operator+=(const Matrix& m);
+	Matrix& operator+=(int value);
+
+	friend Matrix operator+(const Matrix& m1, const Matrix& m2);
+
+	friend Matrix operator-(const Matrix& m1, const Matrix& m2);
 
 };
 

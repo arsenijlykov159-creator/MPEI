@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="../STRING_EXE_DYNAMIC/STRING_EXE_DYNAMIC.vcxproj" />
+  <Project Path="../STRING_EXE_STATIC/STRING_EXE_STATIC.vcxproj" />
+  <Project Path="STRING_DLL/STRING_DLL.vcxproj" />
+</Solution>

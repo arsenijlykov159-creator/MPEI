@@ -4,6 +4,8 @@
 Matrix::Matrix(Size rows, Size columns) : m_rows{ rows }, m_columns{ columns }, m_capacity{ m_rows * m_columns } {
 	if (m_capacity > 0) m_data = new (std::nothrow) int[m_capacity];
 
+	for (Size i{ 0 }; i < m_rows * m_columns; ++i) m_data[i] = 0;
+
 	std::cout << "Вызван конструктор умолчания/создания матрицы по размерам!\n";
 }
 
@@ -136,6 +138,10 @@ bool operator==(const Matrix& m1, const Matrix& m2) {
 	return true;
 }
 
+std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2) {
+	return (m1.m_rows * m1.m_columns <=> m2.m_rows * m2.m_columns);
+}
+
 Matrix& Matrix::operator+=(const Matrix& m) {
 	assert(m_rows == m.m_rows && m_columns == m.m_columns && "Matrix::operator+=");
 	if (!m.m_data) return *this;
@@ -147,6 +153,15 @@ Matrix& Matrix::operator+=(const Matrix& m) {
 	return *this;
 }
 
+Matrix& Matrix::operator+=(int value) {
+	if (!m_data) return *this;
+
+	for (Size i{ 0 }; i < m_rows * m_columns; ++i) {
+		m_data[i] += value;
+	}
+
+	return *this;
+}
 
 Matrix operator+(const Matrix& m1, const Matrix& m2) {
 	Matrix temp{ m1 };
