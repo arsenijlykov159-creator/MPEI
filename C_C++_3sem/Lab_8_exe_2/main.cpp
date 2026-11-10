@@ -5,7 +5,6 @@
 
 using namespace MyType;
 
-//typedef bool(__cdecl* replaceSubStr)(const char*, const char*, const char*, const char*);
 typedef STRING_T* (*CreateClassFunc)();
 
 int main() {

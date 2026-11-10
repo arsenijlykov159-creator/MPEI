@@ -3,7 +3,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="../STRING_EXE_DYNAMIC/STRING_EXE_DYNAMIC.vcxproj" />
-  <Project Path="../STRING_EXE_STATIC/STRING_EXE_STATIC.vcxproj" />
-  <Project Path="STRING_DLL/STRING_DLL.vcxproj" />
+  <Project Path="../STRING_EXE_DYNAMIC/STRING_EXE_DYNAMIC.vcxproj" Id="abee739d-09e3-44b2-b162-1184b11c34b2" />
+  <Project Path="../STRING_EXE_STATIC/STRING_EXE_STATIC.vcxproj" Id="a7a11363-365e-40e2-88a4-dd55d75fa7f0" />
+  <Project Path="STRING_DLL/STRING_DLL.vcxproj" Id="0313a82c-7d08-4a19-b7bc-a3e8a1fa7bde" />
 </Solution>
