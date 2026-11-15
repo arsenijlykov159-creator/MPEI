@@ -11,10 +11,14 @@ int main() {
 
 	myList.push_front(5);
 	myList.push_front(10);
+	myList.push_back(100);
+	myList.push_front(101);
+	myList.push_back(102);
 
 	std::cout << myList << '\n';
 
-	myList.~dList();
+	myList.insert(myList.front()->next->next->next->next->next, 7);
+
 
 	std::cout << myList << '\n';
 
