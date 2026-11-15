@@ -138,9 +138,9 @@ bool operator==(const Matrix& m1, const Matrix& m2) {
 	return true;
 }
 
-std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2) {
-	return (m1.m_rows * m1.m_columns <=> m2.m_rows * m2.m_columns);
-}
+//std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2) {
+//	return (m1.m_rows * m1.m_columns <=> m2.m_rows * m2.m_columns);
+//}
 
 Matrix& Matrix::operator+=(const Matrix& m) {
 	assert(m_rows == m.m_rows && m_columns == m.m_columns && "Matrix::operator+=");

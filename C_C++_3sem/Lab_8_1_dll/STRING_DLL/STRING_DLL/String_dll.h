@@ -13,6 +13,7 @@ namespace MyType {
     constexpr std::size_t MAX_LENGTH{ 256 };
 }
 
+
 extern "C" {
 
     STRING_DLL_API std::size_t __cdecl str_len(const char str[]);

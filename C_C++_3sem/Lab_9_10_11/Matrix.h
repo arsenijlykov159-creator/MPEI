@@ -65,7 +65,7 @@ public:
 
 	friend bool operator==(const Matrix& m1, const Matrix& m2);
 
-	friend std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2);
+	//friend std::strong_ordering operator<=>(const Matrix& m1, const Matrix& m2);
 
 	const int* operator[](Size index) const {
 		assert((index < m_rows) && m_data && "Matrix::operator[]");

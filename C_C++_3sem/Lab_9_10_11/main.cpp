@@ -56,9 +56,10 @@ int main() {
 	a6 = Matrix{ 2, 2 };
 	std::cout << a6 << '\n';
 
-	std::cout << (a5 < a6) << '\n';
+	//std::cout << (a5 < a6) << '\n';
 	std::cout << (a5 == a6) << '\n';
-	std::cout << (a5 > a6) << "\n\n";
+	std::cout << (a5 != a6) << '\n';
+	//std::cout << (a5 > a6) << "\n\n";
 
 	a6[0][0] = 10;
 	a6[1][1] = 15;
