@@ -107,7 +107,6 @@ public:
 
 		return *this;
 	}
-
 	constexpr dList& insert(Node* ptr, T value) {
 		if (!isInList(ptr)) return *this;
 
@@ -116,12 +115,8 @@ public:
 		Node* new_node{ new (std::nothrow) Node{ .previous = ptr, .next = ptr->next, .data = value } };
 		if (new_node == nullptr) return *this;
 
-		bool isSingle{ m_data.first == m_data.last };
-
 		ptr->next->previous = new_node;
 		ptr->next = new_node;
-
-		if (isSingle) m_data.last = new_node;
 		return *this;
 	}
 
@@ -150,6 +145,18 @@ public:
 			delete m_data.first->previous;
 			m_data.first->previous = m_data.last;
 		}
+
+		return *this;
+	}
+	constexpr dList& erase(Node* ptr) {
+		if (!isInList(ptr)) return *this;
+
+		if (ptr == m_data.first) return pop_front();
+		if (ptr == m_data.last) return pop_back();
+
+		ptr->previous->next = ptr->next;
+		ptr->next->previous = ptr->previous;
+		delete ptr;
 
 		return *this;
 	}

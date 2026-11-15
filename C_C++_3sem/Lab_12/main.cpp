@@ -17,7 +17,7 @@ int main() {
 
 	std::cout << myList << '\n';
 
-	myList.insert(myList.front()->next->next->next->next->next, 7);
+	myList.erase(myList.front()->next->next->next->next->next);
 
 
 	std::cout << myList << '\n';
