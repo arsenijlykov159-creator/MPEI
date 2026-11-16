@@ -2,6 +2,8 @@
 #define DLINKEDLIST_H
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 
 template <typename T>
@@ -236,6 +238,32 @@ public:
 	}
 
 
+
+	// ввод
+	friend std::istream& operator>>(std::istream& in, dList& dl) {
+		std::string sstream{};
+		std::getline(in >> std::ws, sstream);
+		std::stringstream ss{ sstream };
+
+		if (in) dl.clear();
+		else {
+			in.setstate(std::ios_base::failbit);
+			return in;
+		}
+
+		T element{};
+
+		while (ss >> element) {
+			dl.push_back(element);
+		}
+
+		ss >> std::ws;
+		if (!ss.eof()) {
+			dl.clear();
+			in.setstate(std::ios_base::failbit);
+		}
+		return in;
+	}
 	
 	// вывод
 	friend std::ostream& operator<<(std::ostream& out, const dList& dl) {
