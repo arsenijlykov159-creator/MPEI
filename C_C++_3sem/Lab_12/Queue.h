@@ -18,6 +18,7 @@ private:
 	Size m_size{};
 	Size m_capacity{};
 
+	// выделение памяти в нужном количестве и копирвоание прошлых элементов
 	constexpr void alloc(Size new_size, Size old_size = 0) {
 		if (!(new_size > old_size)) return;
 
@@ -38,6 +39,7 @@ private:
 		delete[] temp;
 	}
 
+	// удаление памяти
 	constexpr void clear() {
 		delete[] m_data;
 		m_size = 0;
@@ -56,6 +58,7 @@ public:
 		}
 	}
 
+	// добавление элемента в конец очереди
 	constexpr Queue& enqueue(const T& value) {
 		if (m_capacity == 0) {
 			++m_capacity;
@@ -71,10 +74,11 @@ public:
 		return *this;
 	}
 
+	// удаление элемента из начала очереди
 	constexpr std::optional<T> dequeue() {
-		if (m_data == nullptr) return {};
+		if (isEmpty()) return {};
 
-		auto temp{ *m_data };
+		auto temp{ std::move(*m_data) };
 
 		if (m_size == 1) {
 			clear();
@@ -83,20 +87,30 @@ public:
 
 		--m_size;
 		for (Size i{ 0 }; i < m_size; ++i) {
-			std::swap(m_data[i], m_data[i + 1]);
+			m_data[i] = std::move(m_data[i + 1]);
 		}
 		return temp;
 	}
 
+	// проверка на пустоту
+	constexpr bool isEmpty() const { return (m_size == 0); }
 
+	// получение первого элемента очереди без его удаления
+	constexpr std::optional<T> peek() const {
+		if (isEmpty()) return {};
+		else return *m_data;
+	}
 
+	// размер
+	constexpr Size size() const { return m_size; }
 
+	
 
-
+	// вывод
 	friend std::ostream& operator<<(std::ostream& out, const Queue& q) {
 		out << q.m_capacity << ' ' << q.m_size << '\n';
 
-		if (q.m_data == nullptr || q.m_size == 0) {
+		if (q.isEmpty()) {
 			out << "_____empty_____";
 			return out;
 		}

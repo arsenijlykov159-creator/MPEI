@@ -22,15 +22,7 @@ int main() {
 	q.enqueue(9);
 	std::cout << q << '\n';
 
-	std::cout << q.dequeue().value() << '\n';
-	std::cout << q << '\n';
-	std::cout << q.dequeue().value() << '\n';
-	std::cout << q << '\n';
-	std::cout << q.dequeue().value() << '\n';
-	std::cout << q << '\n';
-	std::cout << q.dequeue().value() << '\n';
-	std::cout << q << '\n';
-	std::cout << q.dequeue().value() << '\n';
+	std::cout << q.peek().value() << '\n';
 	std::cout << q << '\n';
 
 	return 0;
