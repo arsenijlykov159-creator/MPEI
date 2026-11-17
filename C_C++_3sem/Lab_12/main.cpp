@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
 
 	if (isNegativeLessThanAThird(double_data)) deleteElement(double_data, function_1);
 
-	std::cout << "Результат 1 задания: " << double_data << '\n';
+	std::cout << "Результат 1 задания: " << double_data << "\n\n";
 
 
 	// 2 задание список
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
 
 	if (hasDigit(char_data)) deleteElement(char_data, function_2);
 
-	std::cout << "Результат 2 задания: " << char_data << '\n';
+	std::cout << "Результат 2 задания: " << char_data << "\n\n";
 
 
 	// 1 задание очередь
@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
 
 	auto [even, odd] = separateQueue(int_queue, function_3);
 
-	std::cout << "Результат 3 задания:\n    Четные: " << even << "\n    Нечетные: " << odd << '\n';
+	std::cout << "Результат 3 задания:\n    Четные: " << even << "\n    Нечетные: " << odd << "\n\n";
 
 
 
@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
 
 	auto [less, other] = separateQueue(double_queue, function_4);
 
-	std::cout << "Результат 4 задания:\n    Меньше " << value << ": " << less << "\n    Больше или равны: " << other << '\n';
+	std::cout << "Результат 4 задания:\n    Меньше " << value << ": " << less << "\n    Больше или равны: " << other << "\n\n";
 
 	return 0;
 }
