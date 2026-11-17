@@ -2,8 +2,10 @@
 #define DLINKEDLIST_H
 
 #include <iostream>
+#include <utility>
 #include <string>
 #include <sstream>
+
 
 
 template <typename T>
@@ -236,7 +238,6 @@ public:
 
 		return *this;
 	}
-
 
 
 	// ввод

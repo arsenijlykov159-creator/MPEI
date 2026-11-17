@@ -5,6 +5,8 @@
 #include <utility>
 #include <cassert>
 #include <optional>
+#include <string>
+#include <sstream>
 
 
 template <typename T>
@@ -42,6 +44,7 @@ private:
 	// удаление памяти
 	constexpr void clear() {
 		delete[] m_data;
+		m_data = nullptr;
 		m_size = 0;
 		m_capacity = 0;
 	}
@@ -49,6 +52,38 @@ private:
 public:
 
 	Queue() = default;
+	~Queue() { clear(); }
+
+	Queue(const Queue& q) {
+		if (q.isEmpty()) return;
+
+		if (q.m_size == 1) {
+			enqueue(q.peek().value());
+			return;
+		}
+
+		m_capacity = q.m_size;
+		alloc(m_capacity);
+
+		for (Size i{ 0 }; i < q.m_size; ++i) {
+			m_data[i] = q.m_data[i];
+		}
+
+		m_size = q.m_size;
+	}
+
+	// присваивание копированием
+	Queue& operator=(const Queue& q) {
+		if (this == &q) return *this;
+
+		auto temp{ q };
+		std::swap(m_data, q.m_data);
+		std::swap(m_size, q.m_size);
+		std::swap(m_capacity, q.m_capacity);
+
+		return *this;
+	}
+
 
 	explicit constexpr Queue(Size size) : m_size{ size }, m_capacity{ size } {
 		alloc(m_capacity);
@@ -105,11 +140,32 @@ public:
 	constexpr Size size() const { return m_size; }
 
 	
+	// ввод
+	friend std::istream& operator>>(std::istream& in, Queue& q) {
+		std::string stream{};
+		std::getline(in >> std::ws, stream);
+		std::stringstream ss{ stream };
+
+		if (in) q.clear();
+		else return in;
+
+		T element{};
+		while (ss >> element) {
+			q.enqueue(element);
+		}
+
+		ss >> std::ws;
+		if (!ss.eof()) {
+			q.clear();
+			in.setstate(std::ios_base::failbit);
+			return in;
+		}
+
+		return in;
+	}
 
 	// вывод
 	friend std::ostream& operator<<(std::ostream& out, const Queue& q) {
-		out << q.m_capacity << ' ' << q.m_size << '\n';
-
 		if (q.isEmpty()) {
 			out << "_____empty_____";
 			return out;
